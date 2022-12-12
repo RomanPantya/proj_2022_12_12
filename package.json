@@ -8,7 +8,6 @@
     "dist/**/*"
   ],
   "scripts": {
-    "prepublish": "tsc",
     "version": "git add -A src",
     "postversion": "git push",
     "build": "npx tsc -p tsconfig.json",
