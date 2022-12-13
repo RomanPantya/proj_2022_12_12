@@ -1,11 +1,16 @@
 import { Router } from 'express';
-import { firstFunction } from './instruments.service';
+import { createInstrument } from './instruments.service';
 
 const router = Router();
 
-router.get('/', (_, res) => {
-    const result = firstFunction();
-    res.json(result);
+router.post('/', async (req, res) => {
+    const instrument = req.body;
+    const result = await createInstrument(req.db, instrument);
+
+    res.json({
+        message: 'This instrument was create',
+        data: result,
+    });
 });
 
-export const firstController = router;
+export const instrumentsController = router;
