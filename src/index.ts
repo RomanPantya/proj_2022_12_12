@@ -1,12 +1,22 @@
-import express from 'express';
+import { generateServer } from './app/generate-server';
+import { connectToPg } from './common/connect-to-pg';
 import { firstController } from './app/first.controller';
 
-const app = express();
+async function main() {
+    const app = generateServer();
+    const connection = await connectToPg();
 
-const port = 3000;
+    app.use((req, _, next) => {
+        req.db = connection;
+        next();
+    });
 
-app.use('/', firstController);
+    app.use('/', firstController);
 
-app.listen(port, () => {
-    console.info(`Server started on port: ${port}`);
-});
+    const port = 3000;
+    app.listen(port, () => {
+        console.info(`Server started on port: ${port}`);
+    });
+}
+
+main();
