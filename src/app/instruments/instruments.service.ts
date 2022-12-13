@@ -1,5 +1,6 @@
 import { PoolClient } from 'pg';
 import { CreateInstrumentDto } from '../../dto/instrument.dto/create-instrument.dto';
+import { UpdateInstrumentDto } from '../../dto/instrument.dto/update-instrument.dto';
 
 export async function createInstrument(
     connection: PoolClient,
@@ -56,6 +57,24 @@ export async function removeInstrument(
     where id = $1
     returning *
     `, [id]);
+
+    return result;
+}
+
+export async function updateInstrument(
+    connection: PoolClient,
+    id: string,
+    changeInfo: UpdateInstrumentDto,
+    // Pick<InstrumentEntity, 'learn'>,
+) {
+    const { learn: l } = changeInfo;
+
+    const { rows: [result] } = await connection.query(`
+    update Instruments
+    set learn = $1
+    where id = $2
+    returning *
+    `, [l, id]);
 
     return result;
 }

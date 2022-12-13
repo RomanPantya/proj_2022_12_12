@@ -1,9 +1,4 @@
-import {
-    PartialType, IntersectionType, PickType, OmitType,
-} from '@nestjs/mapped-types';
+import { PickType } from '@nestjs/mapped-types';
 import { FullInstrumentDto } from './full-instrument.dto';
 
-export class UpdateInstrumentDto extends IntersectionType(
-    PartialType(PickType(FullInstrumentDto, ['learn'])),
-    OmitType(FullInstrumentDto, ['id', 'learn']),
-) {}
+export class UpdateInstrumentDto extends PickType(FullInstrumentDto, ['learn']) {}

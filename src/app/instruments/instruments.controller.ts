@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
     createInstrument, getOneInstrument,
     getAllInstruments, removeInstrument,
+    updateInstrument,
 } from './instruments.service';
 
 const router = Router();
@@ -45,6 +46,19 @@ router.delete('/:id', async (req, res) => {
     res.json({
         message: result
             ? 'This instrument was delete'
+            : `Do not have instrument with this id: ${id}`,
+        data: result,
+    });
+});
+
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const changeInfo = req.body;
+    const result = await updateInstrument(req.db, id, changeInfo);
+
+    res.json({
+        message: result
+            ? 'This instrument was update'
             : `Do not have instrument with this id: ${id}`,
         data: result,
     });
