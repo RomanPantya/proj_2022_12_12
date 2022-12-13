@@ -22,3 +22,16 @@ export async function createInstrument(
 
     return result;
 }
+
+export async function getOneInstrument(
+    connection: PoolClient,
+    id: string,
+) {
+    const { rows: [result] } = await connection.query(`
+    select *
+    from instruments
+    where id = $1
+    `, [id]);
+
+    return result;
+}
