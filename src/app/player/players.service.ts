@@ -53,3 +53,14 @@ export async function getPlayer(
 
     return result;
 }
+
+export async function getAllPlayers(
+    connection: PoolClient,
+) {
+    const { rows } = await connection.query(`
+    select * 
+    from players
+    `);
+
+    return rows;
+}

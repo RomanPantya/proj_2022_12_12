@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createPlayer, getPlayer } from './players.service';
+import { createPlayer, getPlayer, getAllPlayers } from './players.service';
 
 const router = Router();
 
@@ -23,6 +23,16 @@ router.get('/:id', async (req, res) => {
             : `Do not have player with id: ${id}`,
         data: result,
     });
+});
+
+router.get('/', async (req, res) => {
+    const result = await getAllPlayers(req.db);
+    res.json(result.length
+        ? {
+            message: 'Thats all players in this database',
+            data: result,
+        }
+        : 'Do not have players in this database');
 });
 
 export const playersController = router;
