@@ -40,3 +40,16 @@ export async function createPlayer(
     //   `, Object.entries(player).map(([, v]) => v));
     return result;
 }
+
+export async function getPlayer(
+    connection: PoolClient,
+    id: string,
+) {
+    const { rows: [result] } = await connection.query(`
+    select * 
+    from players
+    where id = $1
+    `, [id]);
+
+    return result;
+}
