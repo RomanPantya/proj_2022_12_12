@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { firstFunction } from './first.service';
+import { firstFunction } from './instruments.service';
 
 const router = Router();
 
