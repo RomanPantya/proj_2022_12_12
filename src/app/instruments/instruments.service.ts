@@ -46,3 +46,16 @@ export async function getAllInstruments(
 
     return rows;
 }
+
+export async function removeInstrument(
+    connection: PoolClient,
+    id: string,
+) {
+    const { rows: [result] } = await connection.query(`
+    delete from instruments
+    where id = $1
+    returning *
+    `, [id]);
+
+    return result;
+}

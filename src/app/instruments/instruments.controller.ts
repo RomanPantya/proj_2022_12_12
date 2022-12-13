@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { createInstrument, getOneInstrument, getAllInstruments } from './instruments.service';
+import {
+    createInstrument, getOneInstrument,
+    getAllInstruments, removeInstrument,
+} from './instruments.service';
 
 const router = Router();
 
@@ -33,6 +36,18 @@ router.get('/', async (req, res) => {
             data: result,
         }
         : 'Do not have instruments in this database');
+});
+
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    const result = await removeInstrument(req.db, id);
+
+    res.json({
+        message: result
+            ? 'This instrument was delete'
+            : `Do not have instrument with this id: ${id}`,
+        data: result,
+    });
 });
 
 export const instrumentsController = router;
