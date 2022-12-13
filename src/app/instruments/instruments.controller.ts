@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createInstrument, getOneInstrument } from './instruments.service';
+import { createInstrument, getOneInstrument, getAllInstruments } from './instruments.service';
 
 const router = Router();
 
@@ -22,6 +22,17 @@ router.get('/:id', async (req, res) => {
             : `Do not have instrument with id: ${id}`,
         data: result,
     });
+});
+
+router.get('/', async (req, res) => {
+    const result = await getAllInstruments(req.db);
+
+    res.json(result.length
+        ? {
+            message: 'Thats all instruments',
+            data: result,
+        }
+        : 'Do not have instruments in this database');
 });
 
 export const instrumentsController = router;

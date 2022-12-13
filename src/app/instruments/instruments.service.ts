@@ -35,3 +35,14 @@ export async function getOneInstrument(
 
     return result;
 }
+
+export async function getAllInstruments(
+    connection: PoolClient,
+) {
+    const { rows } = await connection.query(`
+    select *
+    from instruments
+    `);
+
+    return rows;
+}
