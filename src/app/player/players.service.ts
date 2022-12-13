@@ -64,3 +64,16 @@ export async function getAllPlayers(
 
     return rows;
 }
+
+export async function removePlayer(
+    connection: PoolClient,
+    id: string,
+) {
+    const { rows: [result] } = await connection.query(`
+    delete from players
+    where id = $1
+    returning *
+    `, [id]);
+
+    return result;
+}
