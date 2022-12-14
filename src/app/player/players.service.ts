@@ -122,3 +122,19 @@ export async function updatePlayer(
 
     return result;
 }
+
+export async function allPlayersWithInstruments(
+    connection: PoolClient,
+    limit: any,
+    skip: any,
+) {
+    const { rows } = await connection.query(`
+    select *
+    from players
+    where instrument_id is not null
+    limit $1
+    offset $2
+    `, [limit, skip]);
+
+    return rows;
+}
