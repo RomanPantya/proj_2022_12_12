@@ -7,6 +7,7 @@ import {
     updatePlayer,
     allPlayersWithInstruments,
     allPlayersWithoutInstruments,
+    playersByInstrumentId,
 } from './players.service';
 
 const router = Router();
@@ -30,6 +31,18 @@ router.get('/not-instruments', async (req, res) => {
             data: result,
         }
         : 'Do not have players without instruments in this database');
+});
+
+router.get('/instruments/:id', async (req, res) => {
+    const { id } = req.params;
+    const result = await playersByInstrumentId(req.db, id);
+
+    res.json(result.length
+        ? {
+            message: `Thats all players with instrument_id: ${id}`,
+            data: result,
+        }
+        : `Do not have players with instrument_id: ${id} in this database`);
 });
 
 router.get('/instruments', async (req, res) => {

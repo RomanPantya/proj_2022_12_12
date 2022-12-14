@@ -150,3 +150,16 @@ export async function allPlayersWithoutInstruments(
 
     return rows;
 }
+
+export async function playersByInstrumentId(
+    connection: PoolClient,
+    id: string,
+) {
+    const { rows } = await connection.query(`
+    select *
+    from players
+    where instrument_id = $1
+    `, [id]);
+
+    return rows;
+}
