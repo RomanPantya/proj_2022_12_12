@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import {
-    createPlayer, getPlayer, getAllPlayers, removePlayer,
+    createPlayer,
+    getAllPlayers,
+    getPlayer,
+    removePlayer,
+    updatePlayer,
 } from './players.service';
 
 const router = Router();
@@ -44,6 +48,25 @@ router.delete('/:id', async (req, res) => {
     res.json({
         message: result
             ? 'This player was delete'
+            : `Do not have player with id: ${id}`,
+        data: result,
+    });
+});
+
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const changeData = req.body;
+
+    if (!Object.entries(changeData).length) {
+        res.json('Do not have data to update!');
+        return;
+    }
+
+    const result = await updatePlayer(req.db, id, changeData);
+
+    res.json({
+        message: result
+            ? 'This player was update'
             : `Do not have player with id: ${id}`,
         data: result,
     });

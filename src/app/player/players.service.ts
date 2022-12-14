@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
 import { PoolClient } from 'pg';
 import { CreatePlayerDto } from '../../dto/player.dto/create-player.dto';
+import { UpdatePlayerDto } from '../../dto/player.dto/update-player.dto';
 
 export async function createPlayer(
     connection: PoolClient,
@@ -74,6 +76,35 @@ export async function removePlayer(
     where id = $1
     returning *
     `, [id]);
+
+    return result;
+}
+
+export async function updatePlayer(
+    connection: PoolClient,
+    id: string,
+    changeData: UpdatePlayerDto,
+    // Partial<Omit<PlayerEntity, 'id' | 'email'>>
+
+) {
+    const { rows: [result1] } = await connection.query(`
+  select name, ganre, instrument_id
+  from players
+  where id = $1
+  `, [id]);
+
+    const { name: n, ganre: g, instrument_id: inId } = result1;
+    const { name = n, ganre = g, instrument_id = inId } = changeData;
+
+    const { rows: [result] } = await connection.query(`
+    update players
+    set
+    name = $1,
+    ganre = $2,
+    instrument_id = $3
+    where id = $4
+    returning *
+    `, [name, ganre, instrument_id, id]);
 
     return result;
 }
