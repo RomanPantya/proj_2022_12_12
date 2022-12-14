@@ -163,3 +163,16 @@ export async function playersByInstrumentId(
 
     return rows;
 }
+
+export async function removePlayersByInstrumentId(
+    connection: PoolClient,
+    id: string,
+) {
+    const { rows } = await connection.query(`
+    delete from players
+    where instrument_id = $1
+    returning *
+    `, [id]);
+
+    return rows;
+}

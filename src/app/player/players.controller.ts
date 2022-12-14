@@ -8,6 +8,7 @@ import {
     allPlayersWithInstruments,
     allPlayersWithoutInstruments,
     playersByInstrumentId,
+    removePlayersByInstrumentId,
 } from './players.service';
 
 const router = Router();
@@ -77,6 +78,18 @@ router.get('/', async (req, res) => {
             data: result,
         }
         : 'Do not have players in this database');
+});
+
+router.delete('/instruments/:id', async (req, res) => {
+    const { id } = req.params;
+    const result = await removePlayersByInstrumentId(req.db, id);
+
+    res.json(result.length
+        ? {
+            message: 'Thats players was delete',
+            data: result,
+        }
+        : `Do not have players with instrument_id: ${id}`);
 });
 
 router.delete('/:id', async (req, res) => {
