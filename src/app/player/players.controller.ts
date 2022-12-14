@@ -6,6 +6,7 @@ import {
     removePlayer,
     updatePlayer,
     allPlayersWithInstruments,
+    allPlayersWithoutInstruments,
 } from './players.service';
 
 const router = Router();
@@ -18,6 +19,17 @@ router.post('/', async (req, res) => {
         message: 'This player was create',
         data: result,
     });
+});
+
+router.get('/not-instruments', async (req, res) => {
+    const result = await allPlayersWithoutInstruments(req.db);
+
+    res.json(result.length
+        ? {
+            message: 'Thats all players without instruments',
+            data: result,
+        }
+        : 'Do not have players without instruments in this database');
 });
 
 router.get('/instruments', async (req, res) => {
