@@ -83,28 +83,42 @@ export async function removePlayer(
 export async function updatePlayer(
     connection: PoolClient,
     id: string,
-    changeData: UpdatePlayerDto,
+    realyData: UpdatePlayerDto,
     // Partial<Omit<PlayerEntity, 'id' | 'email'>>
 
 ) {
-    const { rows: [result1] } = await connection.query(`
-  select name, ganre, instrument_id
-  from players
-  where id = $1
-  `, [id]);
-
-    const { name: n, ganre: g, instrument_id: inId } = result1;
-    const { name = n, ganre = g, instrument_id = inId } = changeData;
+    const entries = Object.entries(realyData);
+    entries.push(['id', id]);
 
     const { rows: [result] } = await connection.query(`
     update players
     set
-    name = $1,
-    ganre = $2,
-    instrument_id = $3
-    where id = $4
+    ${entries.slice(0, -1).map(([k], i) => {
+        const dollar = `$${i + 1}`;
+        return `${k} = ${dollar}`;
+    }).join(', ')}
+    where id = $${entries.length}
     returning *
-    `, [name, ganre, instrument_id, id]);
+    `, entries.map(([, v]) => v));
+
+    // const { rows: [result1] } = await connection.query(`
+    // select name, ganre, instrument_id
+    // from players
+    // where id = $1
+    // `, [id]);
+
+    // const { name: n, ganre: g, instrument_id: inId } = result1;
+    // const { name = n, ganre = g, instrument_id = inId } = changeData;
+
+    // const { rows: [result] } = await connection.query(`
+    // update players
+    // set
+    // name = $1,
+    // ganre = $2,
+    // instrument_id = $3
+    // where id = $4
+    // returning *
+    // `, [name, ganre, instrument_id, id]);
 
     return result;
 }

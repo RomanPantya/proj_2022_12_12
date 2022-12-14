@@ -55,14 +55,27 @@ router.delete('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const changeData = req.body;
+    const changeData = Object.entries(req.body)
+        .filter(([k]) => ['name', 'ganre', 'instrument_id']
+            .includes(k));
 
-    if (!Object.entries(changeData).length) {
+    if (!changeData.length) {
         res.json('Do not have data to update!');
         return;
     }
 
-    const result = await updatePlayer(req.db, id, changeData);
+    const realyData = Object.fromEntries(changeData);
+
+    const result = await updatePlayer(req.db, id, realyData);
+
+    // const changeData = req.body;
+
+    // if (!Object.entries(changeData).length) {
+    //     res.json('Do not have data to update!');
+    //     return;
+    // }
+
+    // const result = await updatePlayer(req.db, id, changeData);
 
     res.json({
         message: result
