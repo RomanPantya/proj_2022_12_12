@@ -2,6 +2,7 @@
 import { PoolClient } from 'pg';
 import { CreatePlayerDto } from '../../dto/player.dto/create-player.dto';
 import { UpdatePlayerDto } from '../../dto/player.dto/update-player.dto';
+import { UpdateManyPlayersDto } from '../../dto/player.dto/updateMany-player.dto';
 
 export async function createPlayer(
     connection: PoolClient,
@@ -78,6 +79,27 @@ export async function removePlayer(
     `, [id]);
 
     return result;
+}
+
+export async function updatePlayersWithoutInstruments(
+    connection: PoolClient,
+    realyData: UpdateManyPlayersDto,
+    // Partial<Pick<PlayerEntity, 'ganre' | 'instrument_id'>>,
+) {
+    const entries = Object.entries(realyData);
+    console.info(entries);
+    const { rows } = await connection.query(`
+    update players
+    set
+    ${entries.map(([k], i) => {
+        const dollars = `$${i + 1}`;
+        return `${k} = ${dollars}`;
+    }).join(', ')}
+    where instrument_id is null  
+    returning *
+    `, entries.map(([, v]) => v));
+    console.info(rows);
+    return rows;
 }
 
 export async function updatePlayer(
