@@ -92,7 +92,7 @@ export async function updatePlayersWithoutInstruments(
     update players
     set
     ${entries.map(([k], i) => {
-        const dollars = `$${i + 1}`;
+        const dollars: string = `$${i + 1}`;
         return `${k} = ${dollars}`;
     }).join(', ')}
     where instrument_id is null  
@@ -100,6 +100,60 @@ export async function updatePlayersWithoutInstruments(
     `, entries.map(([, v]) => v));
     console.info(rows);
     return rows;
+}
+
+export async function updatePlayerByInstrumetId(
+    connection: PoolClient,
+    id: string,
+    realyData: UpdateManyPlayersDto,
+    // Partial<Omit<PlayerEntity, 'id' | 'email' | 'name'>>
+
+) {
+    const entries = Object.entries(realyData);
+    entries.push(['id', id]);
+
+    const { rows } = await connection.query(`
+    update players
+    set
+    ${entries.slice(0, -1).map(([k], i) => {
+        const dollar = `$${i + 1}`;
+        return `${k} = ${dollar}`;
+    }).join(', ')}
+    where instrument_id = $${entries.length}
+    returning *
+    `, entries.map(([, v]) => v));
+
+    return rows;
+
+    // const { rows: players } = await connection.query(`
+    // select *
+    // from players
+    // where instrument_id = $1
+    // `, [id]);
+
+    // console.info(players);
+
+    // const arr = [];
+
+    // for (let i = 0, len = players.length; i < len; ++i) {
+    //     const { ganre: g, instrument_id: iI, id: idP } = players[i];
+    //     const { ganre = g, instrument_id = iI } = realyData;
+
+    //     const promise = connection.query(`
+    //     update players
+    //     set
+    //     ganre = $1,
+    //     instrument_id = $2
+    //     where id = $3
+    //     returning *
+    //     `, [ganre, instrument_id, idP]);
+
+    //     arr.push(promise);
+    // }
+
+    // const result = await Promise.all(arr);
+
+    // return result.map(({ rows: [el] }) => el);
 }
 
 export async function updatePlayer(

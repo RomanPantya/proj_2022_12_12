@@ -10,6 +10,7 @@ import {
     playersByInstrumentId,
     removePlayersByInstrumentId,
     updatePlayersWithoutInstruments,
+    updatePlayerByInstrumetId,
 } from './players.service';
 
 const router = Router();
@@ -123,6 +124,28 @@ router.put('/not-instruments', async (req, res) => {
             data: result,
         }
         : 'Do not have players without instruments in this database');
+});
+
+router.put('/instruments/:id', async (req, res) => {
+    const { id } = req.params;
+    const changeData = Object.entries(req.body)
+        .filter(([k]) => ['ganre', 'instrument_id']
+            .includes(k));
+
+    if (!changeData.length) {
+        res.json('You must put correct data');
+        return;
+    }
+
+    const realyData = Object.fromEntries(changeData);
+    const result = await updatePlayerByInstrumetId(req.db, id, realyData);
+
+    res.json(result.length
+        ? {
+            message: 'This player(s) was update',
+            data: result,
+        }
+        : `Do not have player with player_id: ${id}`);
 });
 
 router.put('/:id', async (req, res) => {
