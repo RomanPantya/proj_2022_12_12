@@ -1,0 +1,383 @@
+{
+	"info": {
+		"_postman_id": "1031bb8f-5e38-4ab4-a7e5-90c8dbeaeb39",
+		"name": "proj_2022_12_12",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20979173"
+	},
+	"item": [
+		{
+			"name": "instruments",
+			"item": [
+				{
+					"name": "create instrument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"doublebass\",\n    \"type\": \"string\",\n    \"learn\": \"7\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{port}}/instruments",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"instruments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one instrument",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/instruments/1",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"instruments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all instruments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/instruments",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"instruments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove instrument",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/instruments/4",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"instruments",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update instrument",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"qwerty\",\n    \"learn\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{port}}/instruments/5",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"instruments",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "players",
+			"item": [
+				{
+					"name": "create player",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Roma\",\n    \"email\": \"roma@mail\",\n    \"ganre\": \"classic\",\n    \"instrument_id\": 7\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{port}}/players",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get player",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/players/7",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all players",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/players",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove player",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/players/9",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update player",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"updateName\",\n    \"ganre\": \"updateGanre\",\n    \"instrument_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{port}}/players/10",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all players with instruments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/players/instruments?limit=20&skip=1",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"instruments"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "skip",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all players without instruments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/players/not-instruments",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"not-instruments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all players by instrument_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/players/instruments/1",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"instruments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove players by instrument_id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{port}}/players/instruments/8",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"instruments",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update players without instruments",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"new\",\n    \"ganre\": \"blues\",\n    \"instrument_id\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{port}}/players/not-instruments",
+							"host": [
+								"{{host}}{{port}}"
+							],
+							"path": [
+								"players",
+								"not-instruments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update player by instrument_id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:",
+			"type": "string"
+		},
+		{
+			"key": "port",
+			"value": "3000",
+			"type": "string"
+		}
+	]
+}
